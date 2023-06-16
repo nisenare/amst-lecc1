@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Aplicaciones Moviles y Servicios Telematicos"
+            android:textAlignment="center"
             android:textSize="45dp" />
 
         <TextView

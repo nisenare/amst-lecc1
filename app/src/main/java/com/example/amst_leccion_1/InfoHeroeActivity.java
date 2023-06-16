@@ -31,7 +31,6 @@ public class InfoHeroeActivity extends AppCompatActivity {
 
     private String token;
     private String id;
-    private HashMap<String, Integer> powerstats;
     private ArrayList<String> statsLabels;
     private ArrayList<Integer> statsValues;
     private RequestQueue mQueue;
@@ -77,12 +76,9 @@ public class InfoHeroeActivity extends AppCompatActivity {
                         JSONObject biography = (JSONObject) response.get("biography");
                         txtViewHeroFullName.setText(String.valueOf(biography.get("full-name")));
                         JSONObject powerstats = (JSONObject) response.get("powerstats");
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("intelligence")));
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("strength")));
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("speed")));
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("durability")));
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("power")));
-                        this.statsValues.add(Integer.parseInt((String) powerstats.get("combat")));
+                        for (String stat : statsLabels) {
+                            this.statsValues.add(Integer.parseInt((String) powerstats.get(stat)));
+                        }
                         showBarChart();
                     } catch (JSONException ex) {
 
