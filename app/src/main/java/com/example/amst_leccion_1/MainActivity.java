@@ -41,24 +41,18 @@ public class MainActivity extends AppCompatActivity {
                 Request.Method.GET, urlFinal, null,
                 response -> {
 
+                    HashMap<String, String> heroes = new HashMap<>();
                     try {
                         JSONArray arreglo = (JSONArray) response.get("results");
-                        HashMap<String, String> heroes = new HashMap<>();
                         for (int i = 0; i < arreglo.length(); i++) {
                             JSONObject objeto = new JSONObject(arreglo.get(i).toString());
                             String id = objeto.get("id").toString();
                             String name = objeto.get("name").toString();
                             heroes.put(id, name);
                         }
-                        Intent goToSearch = new Intent(getBaseContext(), SearchActivity.class);
-                        //Bundle bundle = new Bundle();
-                        goToSearch.putExtra("heroes", heroes);
-                        goToSearch.putExtra("token", token);
-
-                        startActivity(goToSearch);
-
+                        goToSearch(heroes, token);
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        goToSearch(heroes, token);
                     }
                 },
                 error -> {
@@ -66,5 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
         mQueue.add(request);
+    }
+
+    private void goToSearch(HashMap<String, String> heroes, String token) {
+        Intent goToSearch = new Intent(getBaseContext(), SearchActivity.class);
+        goToSearch.putExtra("heroes", heroes);
+        goToSearch.putExtra("token", token);
+        startActivity(goToSearch);
     }
 }

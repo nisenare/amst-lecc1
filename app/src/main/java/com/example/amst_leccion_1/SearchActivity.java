@@ -3,6 +3,7 @@ package com.example.amst_leccion_1;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,14 +28,17 @@ public class SearchActivity extends AppCompatActivity {
         TextView txtViewCount = findViewById(R.id.txtViewCount);
         txtViewCount.setText(txtViewCount.getText() + " " + heroes.size());
 
+        if (heroes.size() == 0) return;
+
         listView = findViewById(R.id.listView);
         HeroesHashAdapter miAdapter = new HeroesHashAdapter(this, R.layout.list_item, heroes);
         listView.setAdapter(miAdapter);
 
         listView.setOnItemClickListener((adapterView, view, position, id) -> {
-            //getItemId y getItem esta definido en HeroesHashAdapter
-            Log.d("Position", String.valueOf(adapterView.getAdapter().getItemId(position)));
-            Log.d("Nombre", (String)adapterView.getAdapter().getItem(position));
+            Intent goToInfo = new Intent(getBaseContext(), InfoHeroeActivity.class);
+            goToInfo.putExtra("token", token);
+            goToInfo.putExtra("id", String.valueOf(adapterView.getAdapter().getItemId(position)));
+            startActivity(goToInfo);
         });
 
     }
